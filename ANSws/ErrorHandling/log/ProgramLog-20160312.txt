@@ -1,0 +1,10 @@
+====================================================================
+The Exception is:-
+Exception :: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ANSws.Controllers.ReportController.GetLedgerDetails(LedgerDetail oLedgerDetail) in D:\Manish's Work\Projects\ANSWS\ANSws\ANSws\Controllers\ReportController.cs:line 23
+
+====================================================================
+The Exception is:-
+Exception :: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ANSws.Controllers.ReportController.GetLedgerDetails(LedgerDetail oLedgerDetail) in D:\Manish's Work\Projects\ANSWS\ANSws\ANSws\Controllers\ReportController.cs:line 23
+
