@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="anspWMsModelStoreContainer" CdmEntityContainer="anspWMsEntities">
+    <EntitySetMapping Name="tblTrades">
+      <EntityTypeMapping TypeName="anspWMsModel.tblTrade">
+        <MappingFragment StoreEntitySet="tblTrade">
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="TradeNumber" ColumnName="TradeNumber" />
+          <ScalarProperty Name="StrikePrice" ColumnName="StrikePrice" />
+          <ScalarProperty Name="OptionType" ColumnName="OptionType" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Client" ColumnName="Client" />
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+          <ScalarProperty Name="Series" ColumnName="Series" />
+          <ScalarProperty Name="InstrumentType" ColumnName="InstrumentType" />
+          <ScalarProperty Name="Buy_Sell_Message" ColumnName="Buy_Sell_Message" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ExchangeNo" ColumnName="ExchangeNo" />
+          <ScalarProperty Name="ExchangeName" ColumnName="ExchangeName" />
+          <ScalarProperty Name="MessageText" ColumnName="MessageText" />
+          <ScalarProperty Name="TradeTimestamp" ColumnName="TradeTimestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblUserGcms">
+      <EntityTypeMapping TypeName="anspWMsModel.tblUserGcm">
+        <MappingFragment StoreEntitySet="tblUserGcm">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+          <ScalarProperty Name="GCMId" ColumnName="GCMId" />
+          <ScalarProperty Name="LastMessageTimestamp" ColumnName="LastMessageTimestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserWebs">
+      <EntityTypeMapping TypeName="anspWMsModel.UserWeb">
+        <MappingFragment StoreEntitySet="UserWeb">
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserFullName" ColumnName="UserFullName" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="UserGroupType" ColumnName="UserGroupType" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+          <ScalarProperty Name="AllowDn" ColumnName="AllowDn" />
+          <ScalarProperty Name="UserContact" ColumnName="UserContact" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+          <ScalarProperty Name="UserAddress" ColumnName="UserAddress" />
+          <ScalarProperty Name="LockInTime" ColumnName="LockInTime" />
+          <ScalarProperty Name="LockOutTime" ColumnName="LockOutTime" />
+          <ScalarProperty Name="LastUserPassword" ColumnName="LastUserPassword" />
+          <ScalarProperty Name="LastPasswordDate" ColumnName="LastPasswordDate" />
+          <ScalarProperty Name="PasswordExpiryDays" ColumnName="PasswordExpiryDays" />
+          <ScalarProperty Name="NoPasswordChange" ColumnName="NoPasswordChange" />
+          <ScalarProperty Name="ValidSubAccountList" ColumnName="ValidSubAccountList" />
+          <ScalarProperty Name="ValidPermisionList" ColumnName="ValidPermisionList" />
+          <ScalarProperty Name="AutoFTP" ColumnName="AutoFTP" />
+          <ScalarProperty Name="FTPURL" ColumnName="FTPURL" />
+          <ScalarProperty Name="FTPFolder" ColumnName="FTPFolder" />
+          <ScalarProperty Name="LoginStatus" ColumnName="LoginStatus" />
+          <ScalarProperty Name="LoginComputer" ColumnName="LoginComputer" />
+          <ScalarProperty Name="LastLogInTime" ColumnName="LastLogInTime" />
+          <ScalarProperty Name="LastLogOutTime" ColumnName="LastLogOutTime" />
+          <ScalarProperty Name="TrxDate" ColumnName="TrxDate" />
+          <ScalarProperty Name="BXLoginStatus" ColumnName="BXLoginStatus" />
+          <ScalarProperty Name="BXLoginComputer" ColumnName="BXLoginComputer" />
+          <ScalarProperty Name="BXLastLogInTime" ColumnName="BXLastLogInTime" />
+          <ScalarProperty Name="BXLastLogOutTime" ColumnName="BXLastLogOutTime" />
+          <ScalarProperty Name="BXVersion" ColumnName="BXVersion" />
+          <ScalarProperty Name="BXLicense" ColumnName="BXLicense" />
+          <ScalarProperty Name="SignCount" ColumnName="SignCount" />
+          <ScalarProperty Name="BXSignCount" ColumnName="BXSignCount" />
+          <ScalarProperty Name="DisplayDateFormat" ColumnName="DisplayDateFormat" />
+          <ScalarProperty Name="EntryDateFormat" ColumnName="EntryDateFormat" />
+          <ScalarProperty Name="EditMode" ColumnName="EditMode" />
+          <ScalarProperty Name="EditSource" ColumnName="EditSource" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="FileUploadType" ColumnName="FileUploadType" />
+          <ScalarProperty Name="TransComplete" ColumnName="TransComplete" />
+          <ScalarProperty Name="MyStatus" ColumnName="MyStatus" />
+          <ScalarProperty Name="UserPassword1" ColumnName="UserPassword1" />
+          <ScalarProperty Name="AccountLinkCode" ColumnName="AccountLinkCode" />
+          <ScalarProperty Name="LogComputersList" ColumnName="LogComputersList" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

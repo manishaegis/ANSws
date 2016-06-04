@@ -22,12 +22,12 @@ namespace ANSws
 
             try
             {
-                messageBuilder.AppendLine("The Exception is:-");
+                messageBuilder.AppendLine("[" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.ffff") + "] The Exception is:-");
 
-                messageBuilder.AppendLine("Exception :: " + serviceException.ToString());
+                messageBuilder.AppendLine("Exception :: " + serviceException);
                 if (serviceException.InnerException != null)
                 {
-                    messageBuilder.AppendLine("InnerException :: " + serviceException.InnerException.ToString());
+                    messageBuilder.AppendLine("InnerException :: " + serviceException.InnerException);
                 }
                 return messageBuilder.ToString();
             }
@@ -56,9 +56,9 @@ namespace ANSws
                 if (logFilePath.Equals("")) return;
 
                 #region Create the Log file directory if it does not exists
-                DirectoryInfo logDirInfo = null;
+
                 FileInfo logFileInfo = new FileInfo(logFilePath);
-                logDirInfo = new DirectoryInfo(logFileInfo.DirectoryName);
+                var logDirInfo = new DirectoryInfo(logFileInfo.DirectoryName);
                 if (!logDirInfo.Exists) logDirInfo.Create();
                 #endregion Create the Log file directory if it does not exists
 

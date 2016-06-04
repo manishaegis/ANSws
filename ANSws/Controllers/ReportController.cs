@@ -13,7 +13,7 @@ namespace ANSws.Controllers
     public class ReportController : ApiController
     {
         [HttpPost]
-        [Route("report/getledgerdetails")]
+        [Route("report/getLedgerDetails")]
         public WSResponse GetLedgerDetails(LedgerDetail oLedgerDetail)
         {
             WSResponse response = new WSResponse();
@@ -27,6 +27,69 @@ namespace ANSws.Controllers
             {
                 ErrorHandling.LogException(x);
                 response.MESSAGE = "Problem while getting Ledger Details";
+                response.RESPONSE = false;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("report/getOpenSeriesData")]
+        public WSResponse GetOpenSeriesData(OpenSeriesData oOpenSeriesData)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime dt = DateTime.ParseExact(oOpenSeriesData.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                response = ReportRepository.GetOpenSeriesData(oOpenSeriesData);
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                response.MESSAGE = "Problem while getting Open Series Data";
+                response.RESPONSE = false;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("report/getCollateralsMISData")]
+        public WSResponse GetCollateralsMISData(CollateralsMISData oCollateralsMisData)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime dt = DateTime.ParseExact(oCollateralsMisData.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                response = ReportRepository.GetCollateralsMISData(oCollateralsMisData);
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                response.MESSAGE = "Problem while getting Collaterals MIS Data";
+                response.RESPONSE = false;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("report/getDematLedger")]
+        public WSResponse GetDematLedger(DematLedger oDematLedger)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime dt = DateTime.ParseExact(oDematLedger.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                response = ReportRepository.GetDematLedger(oDematLedger);
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                response.MESSAGE = "Problem while getting Demat Ledger";
                 response.RESPONSE = false;
             }
 

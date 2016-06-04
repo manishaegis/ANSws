@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="anspWMsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblTrade">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Client" Type="nvarchar" MaxLength="50" />
+    <Property Name="Symbol" Type="nvarchar" MaxLength="255" />
+    <Property Name="ExpiryDate" Type="datetime" />
+    <Property Name="Series" Type="nvarchar" MaxLength="50" />
+    <Property Name="InstrumentType" Type="nvarchar" MaxLength="50" />
+    <Property Name="OptionType" Type="nchar" MaxLength="2" />
+    <Property Name="StrikePrice" Type="numeric" Precision="28" Scale="8" />
+    <Property Name="Buy_Sell_Message" Type="nchar" MaxLength="10" />
+    <Property Name="Quantity" Type="nvarchar" MaxLength="50" />
+    <Property Name="Price" Type="nvarchar" MaxLength="50" />
+    <Property Name="ExchangeNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="ExchangeName" Type="nvarchar" MaxLength="50" />
+    <Property Name="MessageText" Type="nvarchar" MaxLength="255" />
+    <Property Name="TradeTimestamp" Type="datetime" />
+    <Property Name="TradeNumber" Type="numeric" Precision="30" Scale="0" />
+    <Property Name="OrderNumber" Type="numeric" Precision="30" Scale="0" />
+  </EntityType>
+  <EntityType Name="tblUserGcm">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClientId" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="GCMId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastMessageTimestamp" Type="datetime" />
+  </EntityType>
+  <EntityType Name="UserWeb">
+    <Key>
+      <PropertyRef Name="UserName" />
+    </Key>
+    <Property Name="UserName" Type="char" MaxLength="15" Nullable="false" />
+    <Property Name="UserFullName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserPassword" Type="char" MaxLength="50" Nullable="false" />
+    <Property Name="UserGroupType" Type="tinyint" Nullable="false" />
+    <Property Name="AccountCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="ActiveStatus" Type="bit" Nullable="false" />
+    <Property Name="AllowDn" Type="bit" Nullable="false" />
+    <Property Name="UserContact" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="UserEmail" Type="varchar" MaxLength="70" Nullable="false" />
+    <Property Name="UserAddress" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="LockInTime" Type="smalldatetime" />
+    <Property Name="LockOutTime" Type="smalldatetime" />
+    <Property Name="LastUserPassword" Type="char" MaxLength="50" Nullable="false" />
+    <Property Name="LastPasswordDate" Type="smalldatetime" />
+    <Property Name="PasswordExpiryDays" Type="smallint" Nullable="false" />
+    <Property Name="NoPasswordChange" Type="bit" Nullable="false" />
+    <Property Name="ValidSubAccountList" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="ValidPermisionList" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="AutoFTP" Type="bit" Nullable="false" />
+    <Property Name="FTPURL" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="FTPFolder" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="LoginStatus" Type="bit" Nullable="false" />
+    <Property Name="LoginComputer" Type="char" MaxLength="15" Nullable="false" />
+    <Property Name="LastLogInTime" Type="smalldatetime" />
+    <Property Name="LastLogOutTime" Type="smalldatetime" />
+    <Property Name="TrxDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="BXLoginStatus" Type="bit" Nullable="false" />
+    <Property Name="BXLoginComputer" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="BXLastLogInTime" Type="smalldatetime" />
+    <Property Name="BXLastLogOutTime" Type="smalldatetime" />
+    <Property Name="BXVersion" Type="smallmoney" Nullable="false" />
+    <Property Name="BXLicense" Type="tinyint" Nullable="false" />
+    <Property Name="SignCount" Type="int" Nullable="false" />
+    <Property Name="BXSignCount" Type="int" Nullable="false" />
+    <Property Name="DisplayDateFormat" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="EntryDateFormat" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="EditMode" Type="tinyint" Nullable="false" />
+    <Property Name="EditSource" Type="tinyint" Nullable="false" />
+    <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+    <Property Name="UserId" Type="smallint" Nullable="false" />
+    <Property Name="FileUploadType" Type="char" MaxLength="2" Nullable="false" />
+    <Property Name="TransComplete" Type="tinyint" Nullable="false" />
+    <Property Name="MyStatus" Type="tinyint" Nullable="false" />
+    <Property Name="UserPassword1" Type="char" MaxLength="50" Nullable="false" />
+    <Property Name="AccountLinkCode" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="LogComputersList" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="anspWMsModelStoreContainer">
+    <EntitySet Name="tblTrade" EntityType="Self.tblTrade" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUserGcm" EntityType="Self.tblUserGcm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserWeb" EntityType="Self.UserWeb" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>
