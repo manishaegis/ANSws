@@ -95,5 +95,47 @@ namespace ANSws.Controllers
 
             return response;
         }
+
+        [HttpPost]
+        [Route("report/getClientInfo")]
+        public WSResponse GetDematLedger(ClientInfo oClientInfo)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime dt = DateTime.ParseExact(oClientInfo.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                response = ReportRepository.GetClientInfo(oClientInfo);
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                response.MESSAGE = "Problem while getting Client Info";
+                response.RESPONSE = false;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("report/getDPTrx")]
+        public WSResponse GetDPTrx(DPTrx oDpTrx)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime dt = DateTime.ParseExact(oDpTrx.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                response = ReportRepository.GetDPTrx(oDpTrx);
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                response.MESSAGE = "Problem while getting Client Info";
+                response.RESPONSE = false;
+            }
+
+            return response;
+        }
     }
 }

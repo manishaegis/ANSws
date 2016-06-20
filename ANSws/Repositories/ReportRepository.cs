@@ -34,7 +34,7 @@ namespace ANSws.Repositories
                     cmd.Parameters.AddWithValue("@AccountingYear", year);
                     cmd.Parameters.AddWithValue("@dsXML", dsXML);
 
-                    dt = Util.GetDataTableFromCommand(cmd);
+                    dt = Util.GetDataTableFromCommandANSPWTrXX(cmd);
 
                     response.RESPONSE = dt.Rows.Count > 0;
                     response.RESULT = Util.GetJsonFromDataTable(dt);
@@ -205,7 +205,7 @@ namespace ANSws.Repositories
                     cmd.Parameters.AddWithValue("@AccountingYear", year);
                     cmd.Parameters.AddWithValue("@dsXML", dsXML);
 
-                    dt = Util.GetDataTableFromCommand(cmd);
+                    dt = Util.GetDataTableFromCommandANSPWTrXX(cmd);
 
                     response.RESPONSE = dt.Rows.Count > 0;
                     response.RESULT = Util.GetJsonFromDataTable(dt);
@@ -335,7 +335,7 @@ namespace ANSws.Repositories
                     cmd.Parameters.AddWithValue("@AccountingYear", year);
                     cmd.Parameters.AddWithValue("@dsXML", dsXML);
 
-                    dt = Util.GetDataTableFromCommand(cmd);
+                    dt = Util.GetDataTableFromCommandANSPWTrXX(cmd);
 
                     response.RESPONSE = dt.Rows.Count > 0;
                     response.RESULT = Util.GetJsonFromDataTable(dt);
@@ -464,7 +464,7 @@ namespace ANSws.Repositories
                     cmd.Parameters.AddWithValue("@AccountingYear", year);
                     cmd.Parameters.AddWithValue("@dsXML", dsXML);
 
-                    dt = Util.GetDataTableFromCommand(cmd);
+                    dt = Util.GetDataTableFromCommandANSPWTrXX(cmd);
 
                     response.RESPONSE = dt.Rows.Count > 0;
                     response.RESULT = Util.GetJsonFromDataTable(dt);
@@ -522,6 +522,208 @@ namespace ANSws.Repositories
                             );
                     }
 
+                }
+                else
+                {
+                    rXml = string.Empty;
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return rXml;
+        }
+
+
+        public static WSResponse GetClientInfo(ClientInfo oClientInfo)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime date = DateTime.ParseExact(oClientInfo.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                DateTime fyStartDate = Util.FYStartDate(date);
+                int year = fyStartDate.Year;
+
+                string dsXML = GetXMLforClientInfo(oClientInfo);
+
+                if (dsXML != string.Empty)
+                {
+                    DataTable dt = new DataTable();
+                    SqlCommand cmd = new SqlCommand("btspDisplay_ClientInfo");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AccountingYear", year);
+                    cmd.Parameters.AddWithValue("@dsXML", dsXML);
+
+                    dt = Util.GetDataTableFromCommandANSPWTrXX(cmd);
+
+                    response.RESPONSE = dt.Rows.Count > 0;
+                    response.RESULT = Util.GetJsonFromDataTable(dt);
+                    response.MESSAGE = dt.Rows.Count <= 0 ? "No Record(s) Found" : string.Empty;
+                }
+                else
+                {
+                    response.RESPONSE = false;
+                    response.MESSAGE = "Invalid parameter values";
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return response;
+        }
+
+        public static string GetXMLforClientInfo(ClientInfo oClientInfo)
+        {
+            string rXml = string.Empty;
+
+            try
+            {
+                if (oClientInfo != null)
+                {
+                    DateTime date = DateTime.ParseExact(oClientInfo.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                    string rDate = date.ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture);
+
+                    string cClientInfoXml =
+                        "<t_action>"
+                        + "	<row>"
+                        + "		<BController>D_DematLedger</BController>"
+                        + "		<BAction>1</BAction>"
+                        + "		<UserGroupType>0</UserGroupType>"
+                        + "	</row>"
+                        + "</t_action>"
+                        + "<t_filter>"
+                        + "	<row>"
+                        + "		<AccountCode>{0}</AccountCode>"
+                        + "	</row>"
+                        + "</t_filter>";
+
+
+                    if (!string.IsNullOrEmpty(oClientInfo.UserName))
+                    {
+                        rXml = string.Format(cClientInfoXml,oClientInfo.UserName);
+                    }
+
+                }
+                else
+                {
+                    rXml = string.Empty;
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return rXml;
+        }
+
+
+        public static WSResponse GetDPTrx(DPTrx oDpTrx)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime date = DateTime.ParseExact(oDpTrx.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                DateTime fyStartDate = Util.FYStartDate(date);
+                int year = fyStartDate.Year;
+
+                string dsXML = GetXMLforDPTrx(oDpTrx);
+
+                if (dsXML != string.Empty)
+                {
+                    DataTable dt = new DataTable();
+                    SqlCommand cmd = new SqlCommand("btspDisplay_DPTrxMBL");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AccountingYear", year);
+                    cmd.Parameters.AddWithValue("@dsXML", dsXML);
+
+                    dt = Util.GetDataTableFromCommandANSECDSL(cmd);
+
+                    response.RESPONSE = dt.Rows.Count > 0;
+                    response.RESULT = Util.GetJsonFromDataTable(dt);
+                    response.MESSAGE = dt.Rows.Count <= 0 ? "No Record(s) Found" : string.Empty;
+                }
+                else
+                {
+                    response.RESPONSE = false;
+                    response.MESSAGE = "Invalid parameter values";
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return response;
+        }
+
+        public static string GetXMLforDPTrx(DPTrx oDpTrx)
+        {
+            string rXml = string.Empty;
+
+            try
+            {
+                if (oDpTrx != null)
+                {
+                    DateTime date = DateTime.ParseExact(oDpTrx.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                    string rDate = date.ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture);
+                    string fyStartDate = Util.FYStartDate(date).ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture);
+
+                    string cDpTrxXml1 =
+                        "<t_action>"
+                        + "	<row>"
+                        + "		<BController>D_DPTrx</BController>"
+                        + "		<BAction>1</BAction>"
+                        + "		<UserGroupType>0</UserGroupType>"
+                        + "	</row>"
+                        + "</t_action>"
+                        + "<t_filter>"
+                        + "	<row>"
+                        + "     <TrxDate1>{0}</TrxDate1>" 
+                        + "     <TrxDate2>{1}</TrxDate2>" 
+                        + "     <AccountCode>{2}</AccountCode>"
+                        + "	</row>"
+                        + "</t_filter>";
+
+                    string cDpTrxXml2 =
+                        "<t_action>"
+                        + "	<row>"
+                        + "		<BController>D_DPTrx</BController>"
+                        + "		<BAction>2</BAction>"
+                        + "		<UserGroupType>0</UserGroupType>"
+                        + "	</row>"
+                        + "</t_action>"
+                        + "<t_filter>"
+                        + "	<row>"
+                        + "     <TrxDate1>{0}</TrxDate1>"
+                        + "     <TrxDate2>{1}</TrxDate2>"
+                        + "     <AccountCode>{2}</AccountCode>"
+                        + "     <DPClntId>{3}</DPClntId>"
+                        + "	</row>"
+                        + "</t_filter>";
+
+
+                    if (!string.IsNullOrEmpty(oDpTrx.UserName)
+                        && !string.IsNullOrEmpty(oDpTrx.Date)
+                        && !string.IsNullOrEmpty(oDpTrx.DPClntId))
+                    {
+                        rXml = string.Format(cDpTrxXml2, fyStartDate, rDate, oDpTrx.UserName, oDpTrx.DPClntId);
+                    }
+                    else if (!string.IsNullOrEmpty(oDpTrx.UserName)
+                        && !string.IsNullOrEmpty(oDpTrx.Date))
+                    {
+                        rXml = string.Format(cDpTrxXml1, fyStartDate, rDate, oDpTrx.UserName);
+                    }
                 }
                 else
                 {

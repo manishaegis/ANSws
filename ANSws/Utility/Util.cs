@@ -34,12 +34,36 @@ namespace ANSws.Utility
             return new DateTime((dateTime.Month >= 4 ? dateTime.Year : dateTime.Year - 1), 4, 1);
         }
 
-        public static DataTable GetDataTableFromCommand(SqlCommand sqlCommand)
+        public static DataTable GetDataTableFromCommandANSPWTrXX(SqlCommand sqlCommand)
         {
             DataTable dt = new DataTable();
             try
             {
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ansReportConnection"].ConnectionString);
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ansReportConnectionANSPWTrXX"].ConnectionString);
+                con.Open();
+
+                SqlCommand arithabortCommand = new SqlCommand("SET ARITHABORT ON", con);
+                arithabortCommand.ExecuteNonQuery();
+
+                sqlCommand.Connection = con;
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                return new DataTable();
+            }
+            return dt;
+        }
+
+        public static DataTable GetDataTableFromCommandANSECDSL(SqlCommand sqlCommand)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ansReportConnectionANSECDSL"].ConnectionString);
                 con.Open();
 
                 SqlCommand arithabortCommand = new SqlCommand("SET ARITHABORT ON", con);
