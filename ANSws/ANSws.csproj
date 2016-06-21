@@ -235,6 +235,8 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ClientInfo.cs" />
     <Compile Include="Models\CollateralsMISData.cs" />
+    <Compile Include="Models\DPHolding.cs" />
+    <Compile Include="Models\DPLedger.cs" />
     <Compile Include="Models\DPTrx.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\DematLedger.cs" />

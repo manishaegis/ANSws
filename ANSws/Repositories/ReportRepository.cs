@@ -182,9 +182,6 @@ namespace ANSws.Repositories
             return rXml;
         }
 
-
-
-
         public static WSResponse GetOpenSeriesData(OpenSeriesData oOpenSeriesData)
         {
             WSResponse response = new WSResponse();
@@ -311,9 +308,6 @@ namespace ANSws.Repositories
 
             return rXml;
         }
-
-
-
 
         public static WSResponse GetCollateralsMISData(CollateralsMISData oCollateralsMisData)
         {
@@ -442,8 +436,6 @@ namespace ANSws.Repositories
             return rXml;
         }
 
-
-
         public static WSResponse GetDematLedger(DematLedger oDematLedger)
         {
             WSResponse response = new WSResponse();
@@ -511,8 +503,8 @@ namespace ANSws.Repositories
                         + "		<AccountCode>{1}</AccountCode>"
                         + "	</row>"
                         + "</t_filter>";
-                    
-                    
+
+
                     if (!string.IsNullOrEmpty(oDematLedger.Date)
                         && !string.IsNullOrEmpty(oDematLedger.UserName))
                     {
@@ -536,7 +528,6 @@ namespace ANSws.Repositories
 
             return rXml;
         }
-
 
         public static WSResponse GetClientInfo(ClientInfo oClientInfo)
         {
@@ -607,7 +598,7 @@ namespace ANSws.Repositories
 
                     if (!string.IsNullOrEmpty(oClientInfo.UserName))
                     {
-                        rXml = string.Format(cClientInfoXml,oClientInfo.UserName);
+                        rXml = string.Format(cClientInfoXml, oClientInfo.UserName);
                     }
 
                 }
@@ -624,7 +615,6 @@ namespace ANSws.Repositories
 
             return rXml;
         }
-
 
         public static WSResponse GetDPTrx(DPTrx oDpTrx)
         {
@@ -689,8 +679,8 @@ namespace ANSws.Repositories
                         + "</t_action>"
                         + "<t_filter>"
                         + "	<row>"
-                        + "     <TrxDate1>{0}</TrxDate1>" 
-                        + "     <TrxDate2>{1}</TrxDate2>" 
+                        + "     <TrxDate1>{0}</TrxDate1>"
+                        + "     <TrxDate2>{1}</TrxDate2>"
                         + "     <AccountCode>{2}</AccountCode>"
                         + "	</row>"
                         + "</t_filter>";
@@ -738,5 +728,234 @@ namespace ANSws.Repositories
 
             return rXml;
         }
+
+       
+        public static WSResponse GetDPHolding(DPHolding oDpHolding)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime date = DateTime.ParseExact(oDpHolding.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                DateTime fyStartDate = Util.FYStartDate(date);
+                int year = fyStartDate.Year;
+
+                string dsXML = GetXMLforDPHolding(oDpHolding);
+
+                if (dsXML != string.Empty)
+                {
+                    DataTable dt = new DataTable();
+                    SqlCommand cmd = new SqlCommand("btspDisplay_DPHoldingMBL");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AccountingYear", year);
+                    cmd.Parameters.AddWithValue("@dsXML", dsXML);
+
+                    dt = Util.GetDataTableFromCommandANSECDSL(cmd);
+
+                    response.RESPONSE = dt.Rows.Count > 0;
+                    response.RESULT = Util.GetJsonFromDataTable(dt);
+                    response.MESSAGE = dt.Rows.Count <= 0 ? "No Record(s) Found" : string.Empty;
+                }
+                else
+                {
+                    response.RESPONSE = false;
+                    response.MESSAGE = "Invalid parameter values";
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return response;
+        }
+
+        public static string GetXMLforDPHolding(DPHolding oDpHolding)
+        {
+            string rXml = string.Empty;
+
+            try
+            {
+                if (oDpHolding != null)
+                {
+                    DateTime date = DateTime.ParseExact(oDpHolding.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                    string rDate = date.ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture);
+                    string fyStartDate = Util.FYStartDate(date).ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture);
+
+                    string cDpHoldingXml1 =
+                        "<t_action>"
+                        + "	<row>"
+                        + "		<BController>D_DPHolding</BController>"
+                        + "		<BAction>1</BAction>"
+                        + "		<UserGroupType>0</UserGroupType>"
+                        + "	</row>"
+                        + "</t_action>"
+                        + "<t_filter>"
+                        + "	<row>"
+                        + "     <TrxDate1>{0}</TrxDate1>"
+                        + "     <TrxDate2>{1}</TrxDate2>"
+                        + "     <AccountCode>{2}</AccountCode>"
+                        + "	</row>"
+                        + "</t_filter>";
+
+                    string cDpHoldingXml2 =
+                        "<t_action>"
+                        + "	<row>"
+                        + "		<BController>D_DPHolding</BController>"
+                        + "		<BAction>2</BAction>"
+                        + "		<UserGroupType>0</UserGroupType>"
+                        + "	</row>"
+                        + "</t_action>"
+                        + "<t_filter>"
+                        + "	<row>"
+                        + "     <TrxDate1>{0}</TrxDate1>"
+                        + "     <TrxDate2>{1}</TrxDate2>"
+                        + "     <AccountCode>{2}</AccountCode>"
+                        + "     <DPClntId>{3}</DPClntId>"
+                        + "	</row>"
+                        + "</t_filter>";
+
+
+                    if (!string.IsNullOrEmpty(oDpHolding.UserName)
+                        && !string.IsNullOrEmpty(oDpHolding.Date)
+                        && !string.IsNullOrEmpty(oDpHolding.DPClntId))
+                    {
+                        rXml = string.Format(cDpHoldingXml2, fyStartDate, rDate, oDpHolding.UserName, oDpHolding.DPClntId);
+                    }
+                    else if (!string.IsNullOrEmpty(oDpHolding.UserName)
+                        && !string.IsNullOrEmpty(oDpHolding.Date))
+                    {
+                        rXml = string.Format(cDpHoldingXml1, fyStartDate, rDate, oDpHolding.UserName);
+                    }
+                }
+                else
+                {
+                    rXml = string.Empty;
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return rXml;
+        }
+
+        
+        public static WSResponse GetDPLedger(DPLedger oDpLedger)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime date = DateTime.ParseExact(oDpLedger.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                DateTime fyStartDate = Util.FYStartDate(date);
+                int year = fyStartDate.Year;
+
+                string dsXML = GetXMLforDPLedger(oDpLedger);
+
+                if (dsXML != string.Empty)
+                {
+                    DataTable dt = new DataTable();
+                    SqlCommand cmd = new SqlCommand("btspDisplay_DPLedgerMBL");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AccountingYear", year);
+                    cmd.Parameters.AddWithValue("@dsXML", dsXML);
+
+                    dt = Util.GetDataTableFromCommandANSECDSL(cmd);
+
+                    response.RESPONSE = dt.Rows.Count > 0;
+                    response.RESULT = Util.GetJsonFromDataTable(dt);
+                    response.MESSAGE = dt.Rows.Count <= 0 ? "No Record(s) Found" : string.Empty;
+                }
+                else
+                {
+                    response.RESPONSE = false;
+                    response.MESSAGE = "Invalid parameter values";
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return response;
+        }
+
+        public static string GetXMLforDPLedger(DPLedger oDpLedger)
+        {
+            string rXml = string.Empty;
+
+            try
+            {
+                if (oDpLedger != null)
+                {
+                    DateTime date = DateTime.ParseExact(oDpLedger.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                    string rDate = date.ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture);
+                    string fyStartDate = Util.FYStartDate(date).ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture);
+
+                    string cDpLedgerXml1 =
+                        "<t_action>"
+                        + "	<row>"
+                        + "		<BController>D_DPLedger</BController>"
+                        + "		<BAction>1</BAction>"
+                        + "		<UserGroupType>0</UserGroupType>"
+                        + "	</row>"
+                        + "</t_action>"
+                        + "<t_filter>"
+                        + "	<row>"
+                        + "     <TrxDate1>{0}</TrxDate1>"
+                        + "     <TrxDate2>{1}</TrxDate2>"
+                        + "     <AccountCode>{2}</AccountCode>"
+                        + "	</row>"
+                        + "</t_filter>";
+
+                    string cDpLedgerXml2 =
+                        "<t_action>"
+                        + "	<row>"
+                        + "		<BController>D_DPLedger</BController>"
+                        + "		<BAction>2</BAction>"
+                        + "		<UserGroupType>0</UserGroupType>"
+                        + "	</row>"
+                        + "</t_action>"
+                        + "<t_filter>"
+                        + "	<row>"
+                        + "     <TrxDate1>{0}</TrxDate1>"
+                        + "     <TrxDate2>{1}</TrxDate2>"
+                        + "     <AccountCode>{2}</AccountCode>"                        
+                        + "	</row>"
+                        + "</t_filter>";
+
+
+                    if (!string.IsNullOrEmpty(oDpLedger.UserName)
+                        && !string.IsNullOrEmpty(oDpLedger.Date)
+                        && !string.IsNullOrEmpty(oDpLedger.NewAccountCode))
+                    {
+                        rXml = string.Format(cDpLedgerXml2, fyStartDate, rDate, oDpLedger.UserName, oDpLedger.NewAccountCode);
+                    }
+                    else if (!string.IsNullOrEmpty(oDpLedger.UserName)
+                        && !string.IsNullOrEmpty(oDpLedger.Date))
+                    {
+                        rXml = string.Format(cDpLedgerXml1, fyStartDate, rDate, oDpLedger.UserName);
+                    }
+                }
+                else
+                {
+                    rXml = string.Empty;
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return rXml;
+        }
+
+
     }
 }

@@ -5,11 +5,10 @@ using System.Web;
 
 namespace ANSws.Models
 {
-    public class DPTrx
+    public class DPHolding
     {
-        public string UserName { get; set; }
         public string Date { get; set; }
+        public string UserName { get; set; }
         public string DPClntId { get; set; }
-
     }
 }

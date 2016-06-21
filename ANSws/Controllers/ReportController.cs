@@ -98,7 +98,7 @@ namespace ANSws.Controllers
 
         [HttpPost]
         [Route("report/getClientInfo")]
-        public WSResponse GetDematLedger(ClientInfo oClientInfo)
+        public WSResponse GetClientInfo(ClientInfo oClientInfo)
         {
             WSResponse response = new WSResponse();
 
@@ -137,5 +137,52 @@ namespace ANSws.Controllers
 
             return response;
         }
+
+
+        [HttpPost]
+        [Route("report/getDPHolding")]
+        public WSResponse GetDPHolding(DPHolding oDpHolding)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime dt = DateTime.ParseExact(oDpHolding.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                response = ReportRepository.GetDPHolding(oDpHolding);
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                response.MESSAGE = "Problem while getting Client Info";
+                response.RESPONSE = false;
+            }
+
+            return response;
+        }
+
+        
+        [HttpPost]
+        [Route("report/getDPLedger")]
+        public WSResponse GetDPLedger(DPLedger oDpLedger)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime dt = DateTime.ParseExact(oDpLedger.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                response = ReportRepository.GetDPLedger(oDpLedger);
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                response.MESSAGE = "Problem while getting Client Info";
+                response.RESPONSE = false;
+            }
+
+            return response;
+        }
+
+
+
     }
 }
