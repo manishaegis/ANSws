@@ -864,7 +864,7 @@ namespace ANSws.Repositories
                     cmd.Parameters.AddWithValue("@AccountingYear", year);
                     cmd.Parameters.AddWithValue("@dsXML", dsXML);
 
-                    dt = Util.GetDataTableFromCommandANSECDSL(cmd);
+                    dt = Util.GetDataTableFromCommandANSETrxXX(cmd);
 
                     response.RESPONSE = dt.Rows.Count > 0;
                     response.RESULT = Util.GetJsonFromDataTable(dt);
@@ -934,7 +934,7 @@ namespace ANSws.Repositories
                         && !string.IsNullOrEmpty(oDpLedger.Date)
                         && !string.IsNullOrEmpty(oDpLedger.NewAccountCode))
                     {
-                        rXml = string.Format(cDpLedgerXml2, fyStartDate, rDate, oDpLedger.UserName, oDpLedger.NewAccountCode);
+                        rXml = string.Format(cDpLedgerXml2, fyStartDate, rDate, oDpLedger.NewAccountCode);
                     }
                     else if (!string.IsNullOrEmpty(oDpLedger.UserName)
                         && !string.IsNullOrEmpty(oDpLedger.Date))
