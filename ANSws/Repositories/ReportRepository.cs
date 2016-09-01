@@ -821,12 +821,12 @@ namespace ANSws.Repositories
                         && !string.IsNullOrEmpty(oDpHolding.Date)
                         && !string.IsNullOrEmpty(oDpHolding.DPClntId))
                     {
-                        rXml = string.Format(cDpHoldingXml2, fyStartDate, rDate, oDpHolding.UserName, oDpHolding.DPClntId);
+                        rXml = string.Format(cDpHoldingXml2, rDate, rDate, oDpHolding.UserName, oDpHolding.DPClntId);
                     }
                     else if (!string.IsNullOrEmpty(oDpHolding.UserName)
                         && !string.IsNullOrEmpty(oDpHolding.Date))
                     {
-                        rXml = string.Format(cDpHoldingXml1, fyStartDate, rDate, oDpHolding.UserName);
+                        rXml = string.Format(cDpHoldingXml1, rDate, rDate, oDpHolding.UserName);
                     }
                 }
                 else
