@@ -80,6 +80,6 @@ D:\Manish's Work\Projects\ANSWS\ANSws\ANSws\bin\Microsoft.Owin.Security.Google.x
 D:\Manish's Work\Projects\ANSWS\ANSws\ANSws\bin\Microsoft.Owin.Security.Twitter.xml
 D:\Manish's Work\Projects\ANSWS\ANSws\ANSws\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\Manish's Work\Projects\ANSWS\ANSws\ANSws\bin\System.Web.Http.Owin.xml
-D:\Manish's Work\Projects\ANSWS\ANSws\ANSws\obj\Release\ANSws.csprojResolveAssemblyReference.cache
 D:\Manish's Work\Projects\ANSWS\ANSws\ANSws\obj\Release\ANSws.dll
 D:\Manish's Work\Projects\ANSWS\ANSws\ANSws\obj\Release\ANSws.pdb
+D:\Manish's Work\Projects\ANSWS\ANSws\ANSws\obj\Release\ANSws.csprojResolveAssemblyReference.cache
