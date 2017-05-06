@@ -150,10 +150,9 @@ namespace ANSws.Repositories
 
             try
             {
-                lstTrades = db.tblTrades.Where(t => t.Client.Trim() == userName.Trim() && t.TradeTimestamp > lastTimeStamp).ToList();
-                lstTrades.AddRange(db.tblTrades.Where(t => t.Buy_Sell_Message.Trim().ToLower() == "m" && t.TradeTimestamp > lastTimeStamp));
+                lstTrades = db.tblTrades.Where(t => t.Client.Trim() == userName.Trim() && t.TradeTimestamp > lastTimeStamp).AsNoTracking().ToList();
+                lstTrades.AddRange(db.tblTrades.Where(t => t.Buy_Sell_Message.Trim().ToLower() == "m" && t.TradeTimestamp > lastTimeStamp).AsNoTracking());
 
-                
                 response.MESSAGE = lstTrades.Count > 0 ? "Records Found" : "No Records Found";
                 response.RESPONSE = lstTrades.Count > 0;
             }
@@ -166,6 +165,44 @@ namespace ANSws.Repositories
             }
 
             response.RESULT = JsonConvert.SerializeObject(lstTrades);
+
+            return response;
+        }
+
+        public static WSResponse GetTradeData2(string userName, DateTime lastTimeStamp)
+        {
+            WSResponse response = new WSResponse();
+            response.RESULT = string.Empty;
+            response.MESSAGE = string.Empty;
+            response.RESPONSE = false;
+            
+            DataTable dt = new DataTable();
+
+            try
+            {                
+                const string q = @"SELECT * FROM tblTrade WHERE Client = @pClient AND TradeTimestamp > @pTradeTimestamp
+                                    UNION ALL
+                                   SELECT * FROM tblTrade WHERE LOWER(LTRIM(RTRIM(Buy_Sell_Message))) = 'm' AND TradeTimestamp > @pTradeTimestamp";
+                
+                SqlCommand cmd = new SqlCommand(q);
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@pClient", userName);
+                cmd.Parameters.AddWithValue("@pTradeTimestamp", lastTimeStamp);
+
+                dt = Util.GetDataTableFromCommandanspWMs(cmd);
+
+                response.RESPONSE = dt.Rows.Count > 0;
+                response.RESULT = Util.GetJsonFromDataTable(dt);
+                response.MESSAGE = dt.Rows.Count <= 0 ? "No Record(s) Found" : "Records Found";
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+
+                response.MESSAGE = "Problem while getting trade data";
+                response.RESPONSE = false;
+                response.RESULT = string.Empty;
+            }            
 
             return response;
         }

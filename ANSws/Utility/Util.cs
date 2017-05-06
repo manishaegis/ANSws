@@ -34,6 +34,30 @@ namespace ANSws.Utility
             return new DateTime((dateTime.Month >= 4 ? dateTime.Year : dateTime.Year - 1), 4, 1);
         }
 
+        public static DataTable GetDataTableFromCommandanspWMs(SqlCommand sqlCommand)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ansconnection"].ConnectionString);
+                con.Open();
+
+                SqlCommand arithabortCommand = new SqlCommand("SET ARITHABORT ON", con);
+                arithabortCommand.ExecuteNonQuery();
+
+                sqlCommand.Connection = con;
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                return new DataTable();
+            }
+            return dt;
+        }
+
         public static DataTable GetDataTableFromCommandANSPWTrXX(SqlCommand sqlCommand)
         {
             DataTable dt = new DataTable();
@@ -64,6 +88,30 @@ namespace ANSws.Utility
             try
             {
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ansReportConnectionANSECDSL"].ConnectionString);
+                con.Open();
+
+                SqlCommand arithabortCommand = new SqlCommand("SET ARITHABORT ON", con);
+                arithabortCommand.ExecuteNonQuery();
+
+                sqlCommand.Connection = con;
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+                da.Fill(dt);
+                con.Close();
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                return new DataTable();
+            }
+            return dt;
+        }
+
+        public static DataTable GetDataTableFromCommandANSETrxXX(SqlCommand sqlCommand)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ansReportConnectionANSETrxXX"].ConnectionString);
                 con.Open();
 
                 SqlCommand arithabortCommand = new SqlCommand("SET ARITHABORT ON", con);

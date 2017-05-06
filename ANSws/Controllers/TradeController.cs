@@ -32,5 +32,26 @@ namespace ANSws.Controllers
 
             return response;
         }
+
+        [HttpPost]
+        [Route("trade/getdata2/{username}/{lasttimestamp}")]
+        public WSResponse getTradeData(string username, string lasttimestamp)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime dt = DateTime.ParseExact(lasttimestamp, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                response = SqlRepository.GetTradeData2(username, dt);
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                response.MESSAGE = "Problem while getting trade data";
+                response.RESPONSE = false;
+            }
+
+            return response;
+        }
     }
 }
