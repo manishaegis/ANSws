@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>D:\Manish's Work\Projects\ANSWS\ANSwsPublishNew12</_PublishTargetUrl>
+    <_PublishTargetUrl>D:\Manish's Work\Projects\ANSWS\ANSwsPublishNew18</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/HelpPage/HelpPage.css">
@@ -73,16 +73,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/09/2015 15:33:52</publishTime>
     </File>
     <File Include="bin/ANSws.dll">
-      <publishTime>06/13/2016 16:21:15</publishTime>
+      <publishTime>09/01/2016 19:13:26</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>10/09/2015 15:34:16</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>06/13/2016 16:21:32</publishTime>
+      <publishTime>09/01/2016 19:14:05</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>06/13/2016 16:21:32</publishTime>
+      <publishTime>09/01/2016 19:14:04</publishTime>
     </File>
     <File Include="bin/AttributeRouting.dll">
       <publishTime>10/12/2015 12:17:50</publishTime>
@@ -253,7 +253,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2015 12:17:59</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>06/13/2016 16:21:18</publishTime>
+      <publishTime>09/01/2016 19:13:33</publishTime>
     </File>
     <File Include="Repositories/ansDBEntities.edmx.diagram">
       <publishTime>10/12/2015 11:23:54</publishTime>
@@ -313,7 +313,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/09/2015 15:33:52</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/13/2016 16:21:16</publishTime>
+      <publishTime>07/15/2016 13:03:46</publishTime>
     </File>
   </ItemGroup>
 </Project>
