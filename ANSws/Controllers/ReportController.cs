@@ -182,7 +182,55 @@ namespace ANSws.Controllers
             return response;
         }
 
+        /// <summary>      
+        /// </summary>
+        /// <param name="oDisplayBranchClients"></param>
+        /// <returns></returns>
+        ///   /// /////////////////==========
 
+        [HttpPost]
+        [Route("report/getDisplayBranchClients")]
+        public WSResponse GetDisplayBranchClients(DisplayBranchClients oDisplayBranchClients)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime dt = DateTime.ParseExact(oDisplayBranchClients.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                response = ReportRepository.GetDisplayBranchClients(oDisplayBranchClients);
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                response.MESSAGE = "Problem while getting Client Info";
+                response.RESPONSE = false;
+            }
+
+            return response;
+        }
+
+
+        // Display_SBClientListDP
+        [HttpPost]
+        [Route("report/getDisplaySBClientListDP")]
+        public WSResponse GetDisplaySBClientListDP(DisplaySBClientListDP oDisplaySBClientListDP)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime dt = DateTime.ParseExact(oDisplaySBClientListDP.TrxDate1, "yyyyMMdd", CultureInfo.InvariantCulture);
+                response = ReportRepository.GetDisplaySBClientListDP(oDisplaySBClientListDP);
+            }
+            catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                response.MESSAGE = "Problem while getting Client Info";
+                response.RESPONSE = false;
+            }
+
+            return response;
+        }
 
     }
 }

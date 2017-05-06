@@ -728,8 +728,7 @@ namespace ANSws.Repositories
 
             return rXml;
         }
-
-       
+               
         public static WSResponse GetDPHolding(DPHolding oDpHolding)
         {
             WSResponse response = new WSResponse();
@@ -956,6 +955,215 @@ namespace ANSws.Repositories
             return rXml;
         }
 
+
+        //////=========GetDisplayBranchClients
+
+        public static WSResponse GetDisplayBranchClients(DisplayBranchClients oDisplayBranchClients)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime date = DateTime.ParseExact(oDisplayBranchClients.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                DateTime fyStartDate = Util.FYStartDate(date);
+                int year = fyStartDate.Year;
+
+                string dsXML = GetXMLforDisplayBranchClients(oDisplayBranchClients);
+
+                if (dsXML != string.Empty)
+                {
+                    DataTable dt = new DataTable();
+                    SqlCommand cmd = new SqlCommand("btspDisplay_BranchClients");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AccountingYear", year);
+                    cmd.Parameters.AddWithValue("@dsXML", dsXML);
+
+                    dt = Util.GetDataTableFromCommandANSPWTrXX(cmd);
+
+                    response.RESPONSE = dt.Rows.Count > 0;
+                    response.RESULT = Util.GetJsonFromDataTable(dt);
+                    response.MESSAGE = dt.Rows.Count <= 0 ? "No Record(s) Found" : string.Empty;
+                }
+                else
+                {
+                    response.RESPONSE = false;
+                    response.MESSAGE = "Invalid parameter values";
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return response;
+        }
+
+        public static string GetXMLforDisplayBranchClients(DisplayBranchClients oDisplayBranchClients)
+        {
+            string rXml = string.Empty;
+
+            try
+            {
+                if (oDisplayBranchClients != null)
+                {
+                    DateTime date = DateTime.ParseExact(oDisplayBranchClients.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                    string rDate = date.ToString("dd-MMM-yyyy", CultureInfo.InvariantCulture);
+                    //string fyStartDate = Util.FYStartDate(date).ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture);
+
+                    string cDisplayBranchClientsrXml =
+                        "<t_action>"
+                        + "	<row>"
+                        + "		<BController>D_Ledger</BController>"
+                        + "		<BAction>1</BAction>"
+                        + "		<UserGroupType>3</UserGroupType>"
+                        + "	</row>"
+                        + "</t_action>"
+                        + "<t_filter>"
+                        + "	<row>"
+                        + "     <TrxDate1>{0}</TrxDate1>"
+                        + "     <mCode>{1}</mCode>"
+                        + "	</row>"
+                        + "</t_filter>";
+
+                    if (!string.IsNullOrEmpty(oDisplayBranchClients.Date) && !string.IsNullOrEmpty(oDisplayBranchClients.mCode))
+                    {
+                        rXml = string.Format(cDisplayBranchClientsrXml, rDate, oDisplayBranchClients.mCode);
+                    }
+                    //else if (!string.IsNullOrEmpty(oDLedger.UserName)
+                    //    && !string.IsNullOrEmpty(oDLedger.Date))
+                    //{
+                    //    rXml = string.Format(cDLedgerrXml, fyStartDate, rDate, oDLedger.UserName);
+                    //}
+                }
+                else
+                {
+                    rXml = string.Empty;
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return rXml;
+        }
+
+        // Display_SBClientListDP
+        public static WSResponse GetDisplaySBClientListDP(DisplaySBClientListDP oDisplaySBClientListDP)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime date = DateTime.ParseExact(oDisplaySBClientListDP.TrxDate1, "yyyyMMdd", CultureInfo.InvariantCulture);
+                DateTime fyStartDate = Util.FYStartDate(date);
+                int year = fyStartDate.Year;
+
+                string dsXML = GetXMLforDisplaySBClientListDP(oDisplaySBClientListDP);
+
+                if (dsXML != string.Empty)
+                {
+                    DataTable dt = new DataTable();
+                    SqlCommand cmd = new SqlCommand("btspDisplay_SBClientListDP");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AccountingYear", year);
+                    cmd.Parameters.AddWithValue("@dsXML", dsXML);
+
+                    dt = Util.GetDataTableFromCommandANSECDSL(cmd);
+
+                    response.RESPONSE = dt.Rows.Count > 0;
+                    response.RESULT = Util.GetJsonFromDataTable(dt);
+                    response.MESSAGE = dt.Rows.Count <= 0 ? "No Record(s) Found" : string.Empty;
+                }
+                else
+                {
+                    response.RESPONSE = false;
+                    response.MESSAGE = "Invalid parameter values";
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return response;
+        }
+
+        public static string GetXMLforDisplaySBClientListDP(DisplaySBClientListDP oDisplaySBClientListDP)
+        {
+            string rXml = string.Empty;
+
+            try
+            {
+                if (oDisplaySBClientListDP != null)
+                {
+                    DateTime date = DateTime.ParseExact(oDisplaySBClientListDP.TrxDate1, "yyyyMMdd", CultureInfo.InvariantCulture);
+                    string rDate = date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    //string fyStartDate = Util.FYStartDate(date).ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture);
+
+                    string cDisplaySBClientListDPrXml1 =
+                        "<t_action>"
+                        + "	<row>"
+                        + "		<BController>D_DPHolding</BController>"
+                        + "		<BAction>1</BAction>"
+                        + "		<UserGroupType>0</UserGroupType>"
+                        + "	</row>"
+                        + "</t_action>"
+                        + "<t_filter>"
+                        + "	<row>"
+                        + "     <TrxDate1>{0}</TrxDate1>"
+                        + "     <SubBrokerCode>{1}</SubBrokerCode>"
+                        + "	</row>"
+                        + "</t_filter>";
+
+                    string cDisplaySBClientListDPrXml2 =
+                        "<t_action>"
+                        + "	<row>"
+                        + "		<BController>D_DPHolding</BController>"
+                        + "		<BAction>1</BAction>"
+                        + "		<UserGroupType>0</UserGroupType>"
+                        + "	</row>"
+                        + "</t_action>"
+                        + "<t_filter>"
+                        + "	<row>"
+                        + "     <TrxDate1>{0}</TrxDate1>"
+                        + "     <SubBrokerCode>{1}</SubBrokerCode>"
+                        + "     <ISINCode>{2}</ISINCode> "
+                        + "	</row>"
+                        + "</t_filter>";
+
+
+                    if (!string.IsNullOrEmpty(oDisplaySBClientListDP.TrxDate1) 
+                        && !string.IsNullOrEmpty(oDisplaySBClientListDP.SubBrokerCode)
+                        && !string.IsNullOrEmpty(oDisplaySBClientListDP.ISINCode))
+                    {
+                        rXml = string.Format(cDisplaySBClientListDPrXml2, rDate, oDisplaySBClientListDP.SubBrokerCode,oDisplaySBClientListDP.ISINCode);
+                    }
+                    else if (!string.IsNullOrEmpty(oDisplaySBClientListDP.TrxDate1) 
+                        && !string.IsNullOrEmpty(oDisplaySBClientListDP.SubBrokerCode))
+                    {
+                        rXml = string.Format(cDisplaySBClientListDPrXml1, rDate, oDisplaySBClientListDP.SubBrokerCode);
+                    }
+                }
+                else
+                {
+                    rXml = string.Empty;
+                }
+
+            }
+            catch (Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return rXml;
+        }
+
+
+        
 
     }
 }
