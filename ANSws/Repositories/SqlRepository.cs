@@ -29,7 +29,7 @@ namespace ANSws.Repositories
 
             try
             {
-                user = db.UserWebs.FirstOrDefault(u => u.UserName.Trim() == userName.Trim());
+                user = db.UserWebs.AsNoTracking().FirstOrDefault(u => u.UserName.Trim() == userName.Trim());
             }
             catch (Exception x)
             {
@@ -42,7 +42,12 @@ namespace ANSws.Repositories
                 if (user.UserPassword.Trim() == password.Trim())
                 {
                     //pass is same -- valid user
-                    var u = new {UserName = user.UserName.Trim(), UserFullName = user.UserFullName.Trim()};
+                    var u = new
+                    {
+                        UserName = user.UserName.Trim(),
+                        UserFullName = user.UserFullName.Trim(),
+                        UserGroupType = user.UserGroupType
+                    };
                     wsResponse.RESULT = JsonConvert.SerializeObject(u);
                     wsResponse.RESPONSE = true;
                     wsResponse.MESSAGE = "User Login Successful";
