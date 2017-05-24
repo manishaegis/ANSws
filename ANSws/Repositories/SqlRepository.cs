@@ -74,7 +74,7 @@ namespace ANSws.Repositories
 
             try
             {
-                tblUserGcm userGcm = db.tblUserGcms.Where(u => u.ClientId.Trim() == userName.Trim()).FirstOrDefault();
+                tblUserGcm userGcm = db.tblUserGcms.Where(u => u.ClientId.Trim() == userName.Trim()).AsNoTracking().FirstOrDefault();
 
                 if (userGcm != null)
                 {
@@ -120,7 +120,7 @@ namespace ANSws.Repositories
 
             try
             {
-                tblUserGcm userGcm = db.tblUserGcms.Where(u => u.ClientId.Trim() == userName.Trim()).FirstOrDefault();
+                tblUserGcm userGcm = db.tblUserGcms.Where(u => u.ClientId.Trim() == userName.Trim()).AsNoTracking().FirstOrDefault();
 
                 if (userGcm != null)
                 {
@@ -218,7 +218,7 @@ namespace ANSws.Repositories
 
             try
             {
-                tblUserGcm userGcm = db.tblUserGcms.FirstOrDefault(u => u.ClientId.Trim() == userName.Trim());
+                tblUserGcm userGcm = db.tblUserGcms.AsNoTracking().FirstOrDefault(u => u.ClientId.Trim() == userName.Trim());
 
                 if (userGcm != null)
                 {
