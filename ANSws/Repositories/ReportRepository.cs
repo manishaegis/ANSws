@@ -999,6 +999,54 @@ namespace ANSws.Repositories
             return response;
         }
 
+        public static WSResponse GetTradingMembers(DisplayBranchClients oDisplayBranchClients)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime date = DateTime.ParseExact(oDisplayBranchClients.Date,"yyyyMMdd",CultureInfo.InvariantCulture);
+                DateTime fyStartDate = Util.FYStartDate(date);
+                int year = fyStartDate.Year;
+
+                string dsXML = GetXMLforDisplayBranchClients(oDisplayBranchClients);
+
+                if(dsXML != string.Empty)
+                {
+                    DataTable dt = new DataTable();
+                    SqlCommand cmd = new SqlCommand("btspDisplay_BranchClients");
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AccountingYear",year);
+                    cmd.Parameters.AddWithValue("@dsXML",dsXML);
+
+                    var xmlList = Util.GetDataTableFromCommandANSPWTrXX(cmd);
+                    //filter Data Start
+                                                                                                                                              //1. var xmlList = Select * from DisplayBranchClientsListXML
+                    List<string> lstAcCode = xmlList.AsEnumerable().Select(x => x.Field<string>("AccountCode")).Distinct().ToList();          //2. var lstAccountCode = Select AccountCode from xmlList
+                    DataTable dtFamilyTrades = SqlRepository.GetFamilyTradeData(lstAcCode);                                                   //3. var lstFamilyTrades = Select * from tblTrade where Client in (lstAccountCode)
+                    List<string> lstAccountCode = dtFamilyTrades.AsEnumerable().Select(x => x.Field<string>("Client")).Distinct().ToList();   //4. var lstACcode = Select distinct AccountCode from lstFamilyTrades
+                    dt = xmlList.AsEnumerable().Where(x => lstAccountCode.Contains(x.Field<string>("AccountCode").Trim())).CopyToDataTable(); //5. var finalList = Select * from xmlList where AccountCode in (lstACcode)
+
+                    //filter Data End
+                    response.RESPONSE = dt.Rows.Count > 0;
+                    response.RESULT = Util.GetJsonFromDataTable(dt);
+                    response.MESSAGE = dt.Rows.Count <= 0 ? "No Record(s) Found" : string.Empty;
+                }
+                else
+                {
+                    response.RESPONSE = false;
+                    response.MESSAGE = "Invalid parameter values";
+                }
+
+            }
+            catch(Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return response;
+        }
+
         public static string GetXMLforDisplayBranchClients(DisplayBranchClients oDisplayBranchClients)
         {
             string rXml = string.Empty;

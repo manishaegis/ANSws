@@ -212,6 +212,41 @@ namespace ANSws.Repositories
             return response;
         }
 
+        public static DataTable GetFamilyTradeData(List<string> lstUserName)
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                const string q = @"SELECT distinct Client FROM tblTrade WHERE Client in ( {0} )";
+                string csvUsers = string.Empty;
+                int i = 1;
+
+                SqlCommand cmd = new SqlCommand();
+
+                foreach (string userName in lstUserName)
+                {
+                    csvUsers += "@ClientId" + i + ",";
+                    cmd.Parameters.AddWithValue("@ClientId" + i, userName);
+                    i++;
+                }
+
+                if (!string.IsNullOrEmpty(csvUsers))
+                {
+                    csvUsers = csvUsers.TrimEnd(',');
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = string.Format(q,csvUsers);
+                    dt = Util.GetDataTableFromCommandanspWMs(cmd);
+                }
+            }
+            catch(Exception x)
+            {
+                log.LogException(x);
+            }
+
+            return dt;
+        }
+
         public static WSResponse UpdateLastMessageTimestamp(string userName)
         {
             WSResponse response = new WSResponse();

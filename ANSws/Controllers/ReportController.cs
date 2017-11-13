@@ -186,8 +186,6 @@ namespace ANSws.Controllers
         /// </summary>
         /// <param name="oDisplayBranchClients"></param>
         /// <returns></returns>
-        ///   /// /////////////////==========
-
         [HttpPost]
         [Route("report/getDisplayBranchClients")]
         public WSResponse GetDisplayBranchClients(DisplayBranchClients oDisplayBranchClients)
@@ -200,6 +198,32 @@ namespace ANSws.Controllers
                 response = ReportRepository.GetDisplayBranchClients(oDisplayBranchClients);
             }
             catch (Exception x)
+            {
+                ErrorHandling.LogException(x);
+                response.MESSAGE = "Problem while getting Client Info";
+                response.RESPONSE = false;
+            }
+
+            return response;
+        }
+
+
+        /// <summary>      
+        /// </summary>
+        /// <param name="oDisplayBranchClients"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("report/getTradingMembers")]
+        public WSResponse GetTradingMembers(DisplayBranchClients oDisplayBranchClients)
+        {
+            WSResponse response = new WSResponse();
+
+            try
+            {
+                DateTime dt = DateTime.ParseExact(oDisplayBranchClients.Date,"yyyyMMdd",CultureInfo.InvariantCulture);
+                response = ReportRepository.GetTradingMembers(oDisplayBranchClients);
+            }
+            catch(Exception x)
             {
                 ErrorHandling.LogException(x);
                 response.MESSAGE = "Problem while getting Client Info";
